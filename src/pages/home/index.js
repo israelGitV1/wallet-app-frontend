@@ -1,3 +1,24 @@
+const onLogout = () => {
+  localStorage.clear();
+  window.open("../../../index.html", "_self");
+};
+
+const onDeleteItem = async (id) => {
+  try {
+    const date = "2022-12-15";
+    const email = localStorage.getItem("@WalletApp:userEmail");
+    await fetch(`https://mp-wallet-app-api.herokuapp.com/finances/${id}`, {
+      method: "DELETE",
+      headers: {
+        email: email,
+      },
+    });
+    onLoadFinancesDate();
+  } catch (error) {
+    alert("Error ao deletar item ", error);
+  }
+};
+
 const renderFinancesList = (data) => {
   const table = document.getElementById("finances-table");
   table.innerHTML = " ";
@@ -71,6 +92,8 @@ const renderFinancesList = (data) => {
 
     //delete
     const deleteTd = document.createElement("td");
+    deleteTd.style.cursor = "pointer";
+    deleteTd.onclick = () => onDeleteItem(item.id);
     deleteTd.className = "right";
     const deleteText = document.createTextNode("Deletar");
     deleteTd.appendChild(deleteText);
@@ -178,10 +201,10 @@ const renderFinanceElements = (data) => {
 
 const onLoadFinancesDate = async () => {
   try {
-    const date = "2022-12-15";
+    const dateInputValue = document.getElementById("select-date").value;
     const email = localStorage.getItem("@WalletApp:userEmail");
     const result = await fetch(
-      `https://mp-wallet-app-api.herokuapp.com/finances?date=${date}`,
+      `https://mp-wallet-app-api.herokuapp.com/finances?date=${dateInputValue}`,
       {
         method: "GET",
         headers: {
@@ -213,6 +236,8 @@ const onLoadUserInfo = () => {
 
   // add logout link
   const logoutElement = document.createElement("a");
+  logoutElement.onclick = () => onLogout();
+  logoutElement.style.cursor = "pointer";
   const logoutText = document.createTextNode("sair");
   logoutElement.appendChild(logoutText);
   navbarUserInfo.appendChild(logoutElement);
@@ -278,6 +303,15 @@ const onCloseMotal = () => {
   modal.style.display = "none";
 };
 
+const setInitialDate = () => {
+  const dateInput = document.getElementById("select-date");
+  const nowDate = new Date().toISOString().split("T")[0];
+  dateInput.value = nowDate;
+  dateInput.addEventListener("change", () => {
+    onLoadFinancesDate();
+  });
+};
+
 const onCreateFinanceRelease = async (target) => {
   try {
     const title = target[0].value;
@@ -304,6 +338,7 @@ const onCreateFinanceRelease = async (target) => {
 };
 
 window.onload = () => {
+  setInitialDate();
   onLoadUserInfo();
   onLoadFinancesDate();
   onLoadCategories();
