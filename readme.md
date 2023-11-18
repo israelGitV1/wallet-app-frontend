@@ -1,7 +1,7 @@
 # Wallet App
 
 <img src="https://github.com/israelGitV1/wallet-app-frontend/blob/main/src/img/preview.png"
-alt="Wallet app Preview" height="638" width="295">
+alt="Wallet app Preview" height="295" width="638">
 
 ## Introduction
 
