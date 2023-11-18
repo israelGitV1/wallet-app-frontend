@@ -13,3 +13,21 @@ https://israelgitv1.github.io/wallet-app-frontend/
 - JavaScritp
 - HTML
 - CSS
+
+## Instruction to run lucally
+
+1. Clonede repo:
+
+```
+git clone git@github.com:israelGitV1/wallet-app-frontend.git
+```
+
+2. Navigate to the app folder:
+
+```
+cd wallet-app-frontend
+```
+
+3. Open the `index.html` file.
+
+4. Use the `teste@teste.com` user or create new one
